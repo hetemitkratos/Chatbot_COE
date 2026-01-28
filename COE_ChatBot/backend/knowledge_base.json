@@ -1,0 +1,495 @@
+{
+  "examination_procedures": [
+    {
+      "question": "How do I register for examinations?",
+      "answer": "Examination registration is mandatory for all courses. The process includes:\n1. Registration is controlled by the Controller of Examinations office\n2. Only eligible students (as per regulations) can complete enrollment\n3. Course enrollment is done online through ERP software\n4. Registration must be completed by faculty advisor or student\n5. Signed copy must be submitted to COE office",
+      "steps": [
+        "Log into ERP portal",
+        "Select courses for registration",
+        "Complete online enrollment",
+        "Download enrollment form",
+        "Get signatures from Faculty Advisor and HOD",
+        "Submit to COE office"
+      ],
+      "important_notes": [
+        "Registration is mandatory for all courses that appear on mark sheet",
+        "There is a fee for each course",
+        "Payment is mandatory along with registration"
+      ],
+      "links": [
+        {
+          "text": "Examination Portal",
+          "url": "https://www.srmist.edu.in/controller-of-examinations/"
+        }
+      ]
+    },
+    {
+      "question": "What is the examination fee structure?",
+      "answer": "Examination fees are charged for each course that will be reflected in mark sheet/grade sheet. The fee structure includes:\n- Regular examination fee per course\n- Late fee for applications after deadline\n- Additional fees for arrear/failed courses\n\nFees are raised online at least 6 weeks before examinations and can be paid through the student portal.",
+      "important_notes": [
+        "Sufficient time is allowed for fee payment",
+        "Late applications accepted with fine",
+        "No refund if candidate doesn't appear or is declared ineligible",
+        "Examination fee is non-refundable"
+      ],
+      "links": [
+        {
+          "text": "Fee Payment Portal",
+          "url": "https://www.srmist.edu.in/controller-of-examinations/"
+        }
+      ]
+    },
+    {
+      "question": "What are the examination rules and regulations?",
+      "answer": "Key examination rules include:\n1. Students must be present 30 minutes before examination\n2. Hall ticket and ID card are mandatory\n3. Mobile phones and electronic gadgets are strictly prohibited\n4. Only non-programmable calculators allowed\n5. Students cannot leave hall during first 30 minutes\n6. Write register number only in designated spaces\n7. Do not write anything on question paper except register number",
+      "important_notes": [
+        "Late entry allowed only during first 30 minutes",
+        "No extra time for late arrivals",
+        "Possession of mobile phone is malpractice",
+        "Violation results in cancellation of examination"
+      ]
+    },
+    {
+      "question": "When will the examination time table be released?",
+      "answer": "The examination time table is:\n- Prepared by Controller of Examinations based on academic schedule\n- Communicated to students at least 2 months before commencement\n- Available on the university website\n- Approved by Registrar and Vice-Chancellor",
+      "links": [
+        {
+          "text": "Examination Time Tables",
+          "url": "https://www.srmist.edu.in/controller-of-examinations/examination-time-tables/"
+        }
+      ]
+    },
+    {
+      "question": "What happens if I miss an examination?",
+      "answer": "If you miss an examination due to valid reasons, you may be eligible to appear in the subsequent semester as first appearance. Valid reasons include:\n1. Sudden demise of immediate family (father/mother/spouse/children)\n2. Medical emergency or accident\n3. Participation in national/international sports representing institution\n4. Participation in national/international conference representing institution\n\nYou must inform the Controller before examination commencement with proper documentation.",
+      "steps": [
+        "Inform Controller of Examinations immediately",
+        "Submit medical certificate or proof of emergency",
+        "Obtain permission through proper channel",
+        "Wait for approval from Vice-Chancellor"
+      ]
+    },
+    {
+      "question": "Can I get additional time for examination?",
+      "answer": "Additional examination time (up to 1 hour) may be granted for:\n1. Students with Dyslexia (with medical certificate)\n2. Physical disability affecting writing\n3. Temporary disability (fracture, dislocation)\n\nYou must submit:\n- Medical certificate from recognized institution\n- Request through proper channel\n- Proof of disability",
+      "important_notes": [
+        "Request must be submitted well in advance",
+        "Requires approval from Vice-Chancellor",
+        "Medical certificate must be from professor/civil surgeon"
+      ]
+    },
+    {
+      "question": "What items are allowed in examination hall?",
+      "answer": "Permissible items in examination hall:\n✓ Hall ticket and ID card (mandatory)\n✓ Non-programmable calculator (approved models only)\n✓ Required medicines (for illness)\n✓ Pens, pencils, scales, eraser\n✓ Attested data books/IS codes (when specified)\n\n✗ Mobile phones\n✗ Smart watches\n✗ Programmable calculators\n✗ Electronic gadgets\n✗ Study materials/notes\n✗ Bluetooth devices",
+      "important_notes": [
+        "Hall superintendents cannot hold mobiles for students",
+        "Possession of prohibited items is malpractice",
+        "Cannot borrow items inside examination hall"
+      ]
+    },
+    {
+      "question": "How do I write the online end semester examination?",
+      "answer": "For online examinations through CodeTantra platform:\n1. Duration: 120 minutes for Engineering programs\n2. Two devices required: Laptop + Mobile (for 3rd eye proctoring)\n3. Use Chrome browser (updated version)\n4. Allow camera, microphone, and location permissions\n5. For theory answers: Write on paper, scan using mobile, and upload\n6. Navigation between questions is enabled\n\nImportant: The FINISH button is disabled for first 30 minutes.",
+      "steps": [
+        "Login to https://srmist.codetantra.com/login.jsp",
+        "Click on REMOTE PROCTORED EXAMINATION SYSTEM",
+        "Open test on laptop, connect 3rd eye on mobile",
+        "Complete device checks (audio/video)",
+        "Start examination after proctor approval",
+        "Write answers and upload scanned copies",
+        "Sync uploads from mobile to laptop",
+        "Click FINISH after 30 minutes"
+      ],
+      "important_notes": [
+        "Laptop camera should not be used for uploads",
+        "Use mobile phone to scan and upload answers",
+        "Keep mobile in Do Not Disturb mode",
+        "Both devices must be properly charged"
+      ],
+      "links": [
+        {
+          "text": "Online Exam Manual",
+          "url": "https://www.srmist.edu.in/controller-of-examinations/"
+        }
+      ]
+    },
+    {
+      "question": "What are the supplementary examination rules?",
+      "answer": "Supplementary examinations are conducted only for final semester courses to improve employment opportunities.\n\nEligibility:\n- Only for UG programs (Engineering, Science & Humanities, Management)\n- Final semester students only\n- Conducted within 2 months of result declaration\n\nNote: Supplementary exams are not available for other semesters or programs.",
+      "important_notes": [
+        "Limited to final semester only",
+        "Separate fees applicable",
+        "Results declared within stipulated time"
+      ]
+    }
+  ],
+  "certificates": [
+    {
+      "question": "How do I apply for transcripts?",
+      "answer": "To apply for transcripts:\n1. Visit: https://evarsity.srmist.edu.in/crp/\n2. Login with Register Number and DOB\n3. Complete one-time registration with mobile and email\n4. Fill transcript application form\n5. Specify number of sets required\n6. Choose sealed/unsealed preference\n7. Select collection mode (in-person/courier)\n8. Upload required documents (PDF, max 3MB)\n9. Pay fees online\n10. Collect from COE office or receive by post",
+      "steps": [
+        "Access Certificate Requisition Portal (CRP)",
+        "Register with valid contact details",
+        "Fill transcript application",
+        "Upload identity proof and address proof",
+        "Make online payment",
+        "Track application status",
+        "Collect transcripts"
+      ],
+      "important_notes": [
+        "Processing time: 7-10 working days",
+        "Both sealed and unsealed copies available",
+        "Courier charges additional",
+        "Original documents required for verification"
+      ],
+      "links": [
+        {
+          "text": "Certificate Requisition Portal",
+          "url": "https://evarsity.srmist.edu.in/crp/"
+        },
+        {
+          "text": "User Manual",
+          "url": "https://www.srmist.edu.in/controller-of-examinations/"
+        }
+      ]
+    },
+    {
+      "question": "How do I apply for duplicate certificates?",
+      "answer": "For duplicate mark sheets, grade cards, or degree certificates:\n1. Apply through Certificate Requisition Portal\n2. Submit application with required fees\n3. Provide supporting documents (FIR for lost certificates, damaged original for replacement)\n4. Pay prescribed fees\n5. Processing time: 15-20 working days\n\nRequired documents:\n- Application form\n- FIR copy (for lost certificates)\n- Original damaged certificate (for replacement)\n- ID proof\n- Address proof",
+      "important_notes": [
+        "FIR mandatory for lost certificates",
+        "Original must be surrendered for replacement",
+        "Higher fees for duplicate certificates",
+        "Prior convocation attendance may be required"
+      ]
+    },
+    {
+      "question": "How to apply for degree certificate before convocation?",
+      "answer": "To obtain degree certificate before convocation:\n1. Apply to Controller of Examinations in prescribed format\n2. Submit application with necessary fees\n3. Provide valid reason (employment, higher studies)\n4. Include supporting documents\n5. Obtain permission from Registrar and Vice-Chancellor\n\nNote: This is an exception process requiring special approval.",
+      "steps": [
+        "Download application form",
+        "Fill with valid justification",
+        "Attach supporting documents",
+        "Submit to COE office",
+        "Pay prescribed fees",
+        "Wait for approval"
+      ]
+    },
+    {
+      "question": "What is the provisional certificate?",
+      "answer": "Provisional Certificate is issued in lieu of original degree until convocation:\n- Valid till original degree is prepared\n- Issued by Controller of Examinations\n- Contains student details and completion status\n- Accepted by employers and universities\n- Can be issued after successful completion of program\n\nFees applicable as per university norms.",
+      "important_notes": [
+        "Temporary document until convocation",
+        "Requires successful completion of all courses",
+        "No dues certificate mandatory",
+        "Issued within 1 month of result declaration"
+      ]
+    },
+    {
+      "question": "How do I apply for E-Sanad attestation?",
+      "answer": "E-Sanad is a platform for attestation/apostille of educational documents:\n\nPart 1 - SRMIST Portal:\n1. Visit: https://evarsity.srmist.edu.in/esanad/\n2. Register with Register Number and DOB\n3. Select 'e-SANAD Verification/Attestation'\n4. Choose application and document type\n5. Pay ₹500 per application\n6. Note down SRM TransID\n\nPart 2 - MEA Portal:\n1. Visit: https://esanad.nic.in/register\n2. Register and login\n3. Select Tamil Nadu as state\n4. Choose SRM Institute from authority list\n5. Apply for non-preverified documents\n6. Enter SRM TransID in 'Any Other Information'\n7. Pay MEA fees (₹90 for apostille, ₹40 for attestation)",
+      "steps": [
+        "Complete SRMIST e-Sanad payment",
+        "Receive SRM TransID",
+        "Register on MEA e-Sanad portal",
+        "Submit application with SRM TransID",
+        "Upload documents (PDF format)",
+        "Pay MEA fees",
+        "Track application status"
+      ],
+      "important_notes": [
+        "Two separate payments required",
+        "SRM TransID mandatory for MEA application",
+        "Processing time: 15-20 days",
+        "Multiple candidates cannot use single registration"
+      ],
+      "links": [
+        {
+          "text": "SRMIST e-Sanad Portal",
+          "url": "https://evarsity.srmist.edu.in/esanad/"
+        },
+        {
+          "text": "MEA e-Sanad Portal",
+          "url": "https://esanad.nic.in/"
+        }
+      ]
+    },
+    {
+      "question": "When will I receive my consolidated grade card?",
+      "answer": "Consolidated grade card is issued after:\n- Successful completion of ALL prescribed courses\n- Declaration of final semester results\n- Clearance of all dues\n- Verification of completion requirements\n\nTimeline:\n- Printed within 1 month of result declaration\n- Distributed through Head of Institution\n- Available for download from student portal",
+      "important_notes": [
+        "All courses must be completed",
+        "No pending backlogs",
+        "Library and fee dues must be cleared",
+        "Includes complete academic record"
+      ]
+    }
+  ],
+  "results_evaluation": [
+    {
+      "question": "When will examination results be declared?",
+      "answer": "Results are declared:\n- Within 15 working days from last date of end semester examinations\n- After approval from Registrar and Vice-Chancellor\n- Available on university website for 10 days\n- Notification sent to registered email/mobile\n\nAccess results at: www.srmist.edu.in",
+      "links": [
+        {
+          "text": "Results Portal",
+          "url": "https://www.srmist.edu.in/"
+        }
+      ]
+    },
+    {
+      "question": "What is the review, revaluation, and retotaling process?",
+      "answer": "Students can apply for:\n\n1. REVIEW: View your answer script with evaluator\n- Fixed dates announced after results\n- Student and faculty review together\n- Marks revised if justified with proper explanation\n\n2. REVALUATION: Complete re-evaluation by different examiner\n- If difference >10%, third examiner evaluates\n- Average of nearest two marks considered\n- New examiner hasn't corrected script before\n\n3. RETOTALING: Recheck of total marks\n- Verify addition of marks\n- Check for unevaluated answers\n- Arrange fresh evaluation if needed\n\nApplication:\n- Apply within 7 days of result declaration\n- Use online portal or email coe@srmist.edu.in\n- Results declared within 10 working days\n- Separate fees for each process",
+      "important_notes": [
+        "Not available for practical/clinical/viva voce exams",
+        "7-day deadline is strict",
+        "Fees non-refundable",
+        "Can apply for multiple processes"
+      ],
+      "links": [
+        {
+          "text": "Review/Revaluation Portal",
+          "url": "https://www.srmist.edu.in/controller-of-examinations/review-revaluation-retotalling-of-answer-scripts"
+        }
+      ]
+    },
+    {
+      "question": "What is the grace marks policy?",
+      "answer": "Grace marks are awarded to help students pass:\n- Maximum 5 marks can be given\n- Applied to candidates failing in one or more papers\n- Applicable for University end semester theory examinations only\n- Automatically considered by result passing board\n- No separate application required\n\nNote: Grace marks are at university's discretion and not guaranteed.",
+      "important_notes": [
+        "Maximum 5 marks only",
+        "Only for theory examinations",
+        "Automatic consideration",
+        "No appeal process"
+      ]
+    },
+    {
+      "question": "What is moderation in examination?",
+      "answer": "Moderation marks may be awarded when:\n- Question paper is too difficult\n- Questions beyond syllabus scope\n- Question paper is too lengthy\n- Recommended by Board of Studies Chairman\n- Cannot exceed 10% of maximum marks\n\nModeration is applicable only for University end semester theory examinations.\n\nDecision made by Result Passing Board after consultation with subject experts.",
+      "important_notes": [
+        "Maximum 10% of total marks",
+        "Only for theory exams",
+        "Recommended by BOS Chairman",
+        "Applied uniformly to all students"
+      ]
+    },
+    {
+      "question": "How are internal assessment marks calculated?",
+      "answer": "Internal assessment (IA) includes:\n- Continuous evaluation during semester\n- Tests, assignments, practicals\n- Seminar, projects, comprehension\n- Updated in academic module regularly\n\nFor theory courses:\n- Minimum passing percentage required (as per regulations)\n- Must satisfy IA requirement to appear for end semester exam\n- Collected through online transfer or OMR sheets\n\nNote: Improvement in IA marks permitted only if regulations allow.",
+      "important_notes": [
+        "Regular attendance mandatory",
+        "Minimum marks required",
+        "Updated in E-varsity system",
+        "Counted toward final grade"
+      ]
+    },
+    {
+      "question": "Where are answer scripts stored?",
+      "answer": "All answer scripts (theory and practical) are stored at the University for:\n- Review process\n- Revaluation process\n- Retotaling process\n- Any examination-related issues\n\nStorage period: One year (two semesters)\n\nAfter one year, scripts are disposed as per university policy.",
+      "important_notes": [
+        "Stored securely at COE office",
+        "Accessible during review period",
+        "Not given to students permanently",
+        "Disposed after retention period"
+      ]
+    }
+  ],
+  "malpractice": [
+    {
+      "question": "What happens if I'm caught with a mobile phone in the exam?",
+      "answer": "Possession of mobile phone in examination hall is STRICT MALPRACTICE:\n\nPunishment: Particular examination will be cancelled\n\nNote: Confiscated mobile phone return will be decided on case-by-case basis.\n\nThis rule applies even if:\n- Phone is switched off\n- You forgot it in your pocket\n- You didn't use it\n\nMobile phones, digital diaries, programmable calculators, and electronic gadgets are STRICTLY PROHIBITED.",
+      "important_notes": [
+        "Zero tolerance policy",
+        "Examination cancelled immediately",
+        "Malpractice committee decides penalty",
+        "May affect future examinations"
+      ]
+    },
+    {
+      "question": "What are the different types of malpractice and punishments?",
+      "answer": "MALPRACTICE CATEGORIES AND PUNISHMENTS:\n\n1. SUBJECT CANCELLED:\n- Writing name/register number in wrong places\n- Using color pencils, sketch pens\n- Tearing/spoiling stationery\n- Carrying non-relevant material\n- Helping others or getting help\n- Abusive language in answer book\n\n2. ALL EXAMS IN SESSION CANCELLED:\n- Carrying relevant exam material\n- Taking away answer script\n- Additional sheets insertion\n- Destroying evidence\n\n3. ALL EXAMS CANCELLED + DEBARRED 1 YEAR:\n- Using unauthorized answer books\n\n4. ALL EXAMS CANCELLED + DEBARRED 3 YEARS:\n- Manhandling exam personnel\n- Impersonation\n- Tampering with hall tickets/certificates\n- Repeat offenders",
+      "important_notes": [
+        "Penalties are cumulative for repeat offenses",
+        "Malpractice committee conducts inquiry",
+        "Opportunity given for explanation",
+        "Decision is final"
+      ]
+    },
+    {
+      "question": "What is the malpractice inquiry process?",
+      "answer": "Malpractice Inquiry Process:\n\n1. Detection:\n- Hall superintendent reports incident immediately\n- Evidence collected and sealed\n- Statement from candidate and witnesses\n\n2. Inquiry Committee:\n- Senior professor as convener\n- Two or more professors as members\n- Date and venue intimated to student\n\n3. Inquiry Process:\n- Student given opportunity to explain\n- Evidence presented\n- Witnesses examined\n- Decision based on facts\n\n4. Outcome:\n- Punishment as per malpractice rules\n- Student can continue subsequent exams pending decision\n- Final decision by competent authority",
+      "steps": [
+        "Malpractice detected and reported",
+        "Evidence and statements collected",
+        "Inquiry committee formed",
+        "Student notified of inquiry date",
+        "Hearing conducted",
+        "Decision made and communicated"
+      ]
+    },
+    {
+      "question": "Can I write other exams if caught in malpractice?",
+      "answer": "Yes, you may be allowed to write subsequent examinations pending the decision by university authorities.\n\nHowever:\n- Results will be withheld until inquiry concludes\n- If found guilty, appropriate punishment applied\n- May include cancellation of all exams in that session\n- Future examination eligibility depends on punishment severity\n\nIt's crucial to attend the malpractice inquiry when notified.",
+      "important_notes": [
+        "Provisional permission only",
+        "Results held until decision",
+        "Attend inquiry mandatory",
+        "Non-attendance may worsen case"
+      ]
+    },
+    {
+      "question": "What should I do if wrongly accused of malpractice?",
+      "answer": "If you believe you're wrongly accused:\n\n1. Do NOT panic or create disruption\n2. Cooperate with hall superintendent\n3. Give written statement clearly explaining\n4. Request witnesses if available\n5. Collect any evidence supporting your innocence\n6. Attend malpractice inquiry with all proofs\n7. Present your case clearly to committee\n8. May consult faculty advisor/mentor\n\nThe inquiry committee will consider all evidence before deciding.",
+      "steps": [
+        "Remain calm and cooperative",
+        "Provide clear written explanation",
+        "Gather supporting evidence",
+        "Attend inquiry with proofs",
+        "Present case clearly",
+        "Await committee decision"
+      ]
+    }
+  ],
+  "special_arrangements": [
+    {
+      "question": "Can I get a scribe/writer for examinations?",
+      "answer": "Scribe/Amanuensis (writer) may be allowed if you are:\n1. Blind, OR\n2. Permanently disabled (cannot write with own hand), OR\n3. Temporarily disabled (fracture, dislocation)\n\nEligibility Criteria:\n- Medical certificate from recognized medical college professor\n- For temporary disability: Certificate from Civil Surgeon\n- Request through Head of Department/Institution\n\nScribe Qualifications:\n- UG: Scribe should be 10+2 qualified (max 55% marks)\n- PG: Scribe should be UG in different discipline (max 55% marks)\n- Blind candidates: Scribe one grade lower (max 50% marks)\n- Not a blood relative\n- Not from same faculty/degree\n\nAdditional Time: Up to 1 hour extra time may be granted",
+      "important_notes": [
+        "Not available for practical courses",
+        "Medical certificate mandatory",
+        "Advance application required",
+        "Scribe qualifications strictly verified",
+        "Scribe fees paid by candidate"
+      ]
+    },
+    {
+      "question": "What facilities are available for differently-abled students?",
+      "answer": "SRM provides special facilities for differently-abled students:\n\n1. Physical Disability:\n- Scribe/Amanuensis services\n- Extra time (up to 1 hour)\n- Separate examination room\n- Ground floor examination halls\n\n2. Dyslexia:\n- Exemption from language papers (with certificate)\n- Additional writing time\n- Special support as needed\n\n3. Visual Impairment:\n- Screen reader software\n- Scribe services\n- Large print question papers\n\n4. Hearing Impairment:\n- Written instructions\n- Visual aids\n- Preferential seating\n\nApplication Process:\n- Submit disability certificate\n- Apply through proper channel\n- Well in advance of examination\n- Approval from Vice-Chancellor required",
+      "important_notes": [
+        "Valid medical certificate mandatory",
+        "Apply early for arrangements",
+        "Specific facilities based on disability type",
+        "University committed to inclusive education"
+      ]
+    },
+    {
+      "question": "Are there special provisions for students with contagious diseases?",
+      "answer": "Yes, students with contagious diseases (chicken pox, mumps, Madras eye) are:\n\n- Isolated in separate examination hall\n- Dedicated hall superintendent assigned\n- All safety precautions taken\n- Normal examination procedure followed\n- Medical certificate required\n\nThis ensures:\n- Student can take examination\n- Other students protected\n- Fair examination conduct maintained\n\nInform COE office immediately if you have contagious disease during examination period.",
+      "steps": [
+        "Obtain medical certificate",
+        "Inform COE office immediately",
+        "Arrange isolated examination hall",
+        "Take examination safely",
+        "Follow medical advice"
+      ]
+    }
+  ],
+  "convocation": [
+    {
+      "question": "When is the convocation held?",
+      "answer": "University convocation is held:\n- Once every academic year (ordinarily)\n- Special convocation may be held anytime\n- Dates notified by Registrar\n- At least 3 weeks advance notice to graduands\n- Approved by Academic Council and Board of Management\n\nDegree certificates awarded during convocation.",
+      "important_notes": [
+        "Attendance is important but optional",
+        "Can receive degree in-absentia",
+        "Proper attire required",
+        "Family invited to attend"
+      ]
+    },
+    {
+      "question": "What are ranks and medals?",
+      "answer": "Ranks and Medals awarded based on:\n\nCriteria:\n- First class or First class with distinction mandatory\n- Completed all courses in first appearance\n- No detention or absence in any course\n- No break of study during program\n\nNumber of Ranks:\n- 1 rank (Gold) for ≤50 students\n- 2 ranks (Gold, Silver) for 100 students\n- 3 ranks (Gold, Silver, Bronze) for >100 students (maximum)\n\nAwards include medal and certificate signed by COE.\n\nNote: Special circumstances (death, accident, institute representation) may be considered for first appearance equivalence.",
+      "important_notes": [
+        "Only for top performers",
+        "All courses in first appearance",
+        "No malpractice record",
+        "Based on overall percentage/CGPA"
+      ]
+    },
+    {
+      "question": "Can I receive degree without attending convocation?",
+      "answer": "Yes, you can receive degree in-absentia:\n\n1. Indicate 'in-absentia' preference during registration\n2. Degree certificate sent by post\n3. Proper documentation and acknowledgment maintained\n4. Same degree as those attending convocation\n\nAlternatively:\n- Apply to COE for pre-convocation degree\n- Valid reason required (employment, higher studies)\n- Additional fees applicable\n- Requires approval from Registrar and Vice-Chancellor",
+      "steps": [
+        "Register for in-absentia option, OR",
+        "Apply for pre-convocation degree",
+        "Submit required documents",
+        "Pay applicable fees",
+        "Receive degree by post/in person"
+      ]
+    }
+  ],
+  "contact_support": [
+    {
+      "question": "How do I contact the Controller of Examinations office?",
+      "answer": "Controller of Examinations Office:\n\n📍 Location: 14th Floor, University Building, SRM Nagar, Potheri - 603203, Chengalpattu (Dt.)\n\n📞 Phone: +91-44-2741 7211, 7225\n\n📧 Email: coe@srmist.edu.in\n\n📧 Nodal Officer: cv.coe@srmist.edu.in\n\nOffice Hours: Monday to Friday, 9:00 AM - 5:00 PM\n\nFor specific queries:\n- Certificates: cv.coe@srmist.edu.in\n- General: coe@srmist.edu.in\n- Website: www.srmist.edu.in/controller-of-examinations/",
+      "links": [
+        {
+          "text": "COE Website",
+          "url": "https://www.srmist.edu.in/controller-of-examinations/"
+        }
+      ]
+    },
+    {
+      "question": "Where can I get examination forms and information?",
+      "answer": "Examination information available at:\n\n1. Official Website: www.srmist.edu.in/controller-of-examinations/\n- Examination time tables\n- Notifications and circulars\n- Application forms\n- Fee structure\n- Results\n\n2. Student Portal: E-varsity system\n- Course registration\n- Fee payment\n- Grade cards\n- Applications\n\n3. COE Office: 14th Floor, University Building\n- In-person assistance\n- Document submission\n- Query resolution\n\n4. Help Desk: Available at examination venues during exam period",
+      "links": [
+        {
+          "text": "COE Portal",
+          "url": "https://www.srmist.edu.in/controller-of-examinations/"
+        }
+      ]
+    }
+  ],
+  "research_patents": [
+    {
+      "question": "What research areas does SRM focus on?",
+      "answer": "SRM Institute has diverse research focus across multiple domains:\n\n🔬 **Engineering & Technology:**\n- Artificial Intelligence & Machine Learning\n- Cyber Security\n- IoT and Smart Systems\n- Renewable Energy\n- Nanotechnology\n- Robotics\n\n🏥 **Medical & Health Sciences:**\n- Drug Development\n- Clinical Trials\n- Stem Cell Research\n- Neuroscience\n\n🌱 **Agriculture & Sustainability:**\n- Climate Smart Agriculture\n- Protected Cultivation\n- Organic Farming\n\n🔭 **Science & Research:**\n- Materials Science\n- Computational Physics\n- Environmental Studies\n\nSRM encourages interdisciplinary research and provides extensive facilities for innovation.",
+      "links": [
+        {
+          "text": "Research Thrust Areas",
+          "url": "https://www.srmist.edu.in/research/"
+        }
+      ]
+    },
+    {
+      "question": "How can I apply for patents at SRM?",
+      "answer": "Patent Application Process at SRM:\n\n1. **Innovation Disclosure:**\n- Document your innovation\n- Submit to Research Cell\n- Initial evaluation\n\n2. **Patent Search:**\n- Prior art search conducted\n- Novelty assessment\n- Feasibility evaluation\n\n3. **Patent Drafting:**\n- Technical specifications prepared\n- Claims formulated\n- Professional drafting support\n\n4. **Filing:**\n- Indian Patent Office filing\n- International filing (if applicable)\n- University provides support\n\n5. **Prosecution:**\n- Respond to objections\n- Technical guidance provided\n- Legal support available\n\n**Support Available:**\n- Patent filing fee support\n- Professional guidance\n- Legal assistance\n- Commercialization support\n\nContact Research Cell for more information.",
+      "important_notes": [
+        "Maintain confidentiality before filing",
+        "Document everything thoroughly",
+        "Early disclosure to university",
+        "University shares IP rights"
+      ]
+    }
+  ],
+  "policies": [
+    {
+      "question": "What is the attendance requirement for examinations?",
+      "answer": "Attendance Requirements:\n\n**General Rule:**\n- Minimum attendance percentage as prescribed in respective regulations\n- Must be satisfied for both theory and practical\n- Includes lectures, practicals, tutorials, seminars\n\n**Consequences of Shortage:**\n- Candidature detained for that course\n- Cannot appear in end semester examination\n- Must satisfy attendance in subsequent semester\n\n**Condonation:**\n- May be possible with valid reasons\n- Medical grounds (with certificate)\n- Through proper application channel\n- Requires Vice-Chancellor approval\n\n**Special Cases:**\n- Institutional representation (sports, conferences)\n- Medical emergencies\n- Family emergencies\n\nNote: Specific percentage varies by program - check your regulations.",
+      "important_notes": [
+        "Regular attendance is mandatory",
+        "Condonation not automatic",
+        "Medical certificates must be genuine",
+        "Plan to meet requirement early"
+      ]
+    },
+    {
+      "question": "What is the policy on improvement of grades?",
+      "answer": "Grade Improvement:\n\n**General Policy:**\n- Improvement may be allowed as per program regulations\n- Typically for improving division/classification\n- May have attempt limits\n- Only for passed subjects\n\n**Process:**\n1. Check if regulations allow improvement\n2. Apply during registration period\n3. Pay additional examination fees\n4. Appear in examination\n5. Better score considered\n\n**Important Points:**\n- Only certain programs allow improvement\n- May be limited to specific categories (2nd class to 1st class)\n- Number of attempts may be limited\n- Separate fees applicable\n- Better of two marks considered\n\n**Not Available For:**\n- Failed subjects (use reappear option)\n- Practical examinations (in most cases)\n- Internal assessment marks\n\nCheck your program regulations for specific rules.",
+      "important_notes": [
+        "Check regulations first",
+        "Limited attempts usually",
+        "Additional fees required",
+        "Better score only considered"
+      ]
+    },
+    {
+      "question": "What happens if I am detained in a course?",
+      "answer": "Detention in Course:\n\n**Reasons for Detention:**\n- Shortage of attendance\n- Insufficient internal assessment marks\n- Not meeting course requirements\n\n**Consequences:**\n- Cannot appear in end semester exam for that course\n- Must re-register in subsequent semester\n- Pay course fees again\n- Satisfy all requirements\n\n**How to Avoid:**\n- Maintain regular attendance (>75% typically)\n- Complete all assignments\n- Attend internal tests\n- Meet continuous evaluation requirements\n\n**Process After Detention:**\n1. Re-register for the course next semester\n2. Attend classes regularly\n3. Complete all requirements\n4. Appear in examination\n5. Clear the course\n\n**Impact:**\n- Delays program completion\n- May affect year-back status\n- Additional cost involved\n- Extra semester might be needed",
+      "important_notes": [
+        "Prevention is better than cure",
+        "Track attendance regularly",
+        "Complete assignments on time",
+        "Seek help if struggling"
+      ]
+    }
+  ]
+}
