@@ -1,0 +1,24 @@
+jQuery( document ).ready(function() {
+    jQuery.ajax({
+    url: ajax_announcements.ajax_url,
+    type: 'POST',
+    dataType: 'json',
+    data:{
+        security: ajax_announcements.nonce,
+        action: 'load_announcement_list',
+    },				
+    beforeSend: function() {
+    },
+    success: function(data) {
+        jQuery('body').append(jQuery(data.announcement_template));
+        jQuery('.sticky-sidebar-toggle').click(function(e){
+            e.preventDefault();
+			jQuery('.sticky-sidebar').toggleClass('active');
+		});
+    },
+    error: function(errorThrown){
+        console.log(errorThrown);
+        return false;
+    }
+    });
+});

@@ -1,0 +1,56 @@
+jQuery( document ).ready(function() {
+	jQuery('.dropdown-wrapper select').each(function(){
+	    var $this = jQuery(this), numberOfOptions = jQuery(this).children('option').length;
+	  	console.log ('dropdown loaded');
+	    $this.addClass('select-hidden'); 
+	    $this.wrap('<div class="select"></div>');
+	    $this.after('<div class="select-styled"></div>');
+
+	    var $styledSelect = $this.next('div.select-styled');
+	    $styledSelect.text($this.children('option').eq(0).text());
+	    $styledSelect.attr('value',$this.children('option').eq(0).attr('value'));
+	  	
+	  	var $list = jQuery('<ul />', {
+	        'class': 'select-options'
+	    }).insertAfter($styledSelect);
+	  
+	    for (var i = 0; i < numberOfOptions; i++) {
+	        jQuery('<li />', {
+	            text: $this.children('option').eq(i).text(),
+	            rel: $this.children('option').eq(i).val(),
+	            value: $this.children('option').eq(i).val(),
+	        }).appendTo($list);	        
+	    }
+
+	});
+	
+// 	jQuery(document).on( "click", 'div.select-styled', function(e) {
+//         e.stopPropagation();
+//         jQuery('div.select-styled.active').not(this).each(function(){
+//             jQuery(this).removeClass('active').next('ul.select-options').hide();
+//         });
+//         jQuery(this).toggleClass('active').next('ul.select-options').toggle();        
+//     });
+	
+	// hide select option on click outside
+    jQuery(document).on('click', function(e) {
+	    var container = jQuery("div.select-styled");
+	    if (!jQuery(e.target).closest(container).closest('.select-options').length) {
+	        container.next('.select-options').hide();
+	    }
+	});
+	jQuery(document).on( "click", 'ul.select-options li', function(e) {
+		e.stopPropagation();
+		jQuery(this).parent('ul.select-options').find('li').removeClass('is_selected');
+    	jQuery(this).addClass('is_selected');
+		var parent = jQuery(this).parents('.select')
+    	var parent_select = jQuery(this).parents('.select').find('select');
+    	parent.find('.select-styled').text( jQuery(this).text() ).removeClass('active');
+        parent.find('.select-styled').attr( 'value', jQuery(this).attr('value') );
+        jQuery(this).parent('ul').hide();
+        var parent_data_id= parent.attr('name');
+		parent_select.val( jQuery(this).attr('value') );
+// 		console.log(parent_data_id);
+	});
+
+});

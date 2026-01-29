@@ -1,0 +1,5 @@
+$(".agree-condition").text("I agree to receive information regarding my submitted enquiry ");
+
+setInterval(()=>{
+        $(".help-block:contains('Please Check the Agreement Checkbox to proceed further')").text('Please check the agreement checkbox to proceed')
+},200)

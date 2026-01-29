@@ -1,0 +1,151 @@
+jQuery( document ).ready(function() {
+// 	jQuery( ".program-finder-filter select[name='college_lists']" ).change(function( event ) {
+
+// 		var selectedCollege = jQuery(this).children("option:selected").val();
+// 		var selectedCollegeID = jQuery(this).children("option:selected").val();
+// 		var action = 'filter_pf_department_list';
+
+// 			jQuery.ajax({
+// 			url: ajax_display.ajax_url,
+// 			type: 'POST',
+// 			dataType: 'json',
+// 			data:{
+// 				selectedCollegeID: selectedCollegeID,
+// 				selectedCollege: selectedCollege,
+// 				security: ajax_display.nonce,
+// 				action: action,
+// 			},
+// 			beforeSend: function() {
+// 			},
+// 			success:function(data) {
+// 				var html_department ='';
+// 				var html_head ='';
+// 				if(data.department){
+// 					html_department += '<option value="" data-label="Select Department">Select Department</option>';
+// 					jQuery.each(data.department, function(k, v) {
+// 						html_department += '<option value="'+data.department[k]['ID']+'" data-label="'+data.department[k]['title']+'">'+data.department[k]['title']+'</option>';
+
+// 					});
+// 					jQuery('.program-finder-filter select[name="department_lists"]').html(html_department);
+// 				}
+// 				else{
+// 					jQuery('.program-finder-filter select[name="department_lists"]"').html('<option value="" data-label="Department Not Found">Department Not Found</option>');
+// 				}
+// 			},
+// 			error: function(errorThrown){
+// 				console.log(errorThrown);
+// 				return false;
+// 			}
+// 		});
+// 	});    
+	jQuery(document).on( "click", '.colleges-wrapper ul.select-options li', function(e) {
+    	e.stopPropagation();
+		jQuery(this).parent('ul.select-options').find('li').removeClass('is_selected');
+    	jQuery(this).addClass('is_selected');
+		var parent = jQuery(this).parents('.select')
+    	var parent_select = jQuery(this).parents('.select').find('select');
+    	parent.find('.select-styled').text( jQuery(this).text() ).removeClass('active');
+        parent.find('.select-styled').attr( 'value', jQuery(this).attr('value') );
+        jQuery(this).parent('ul').hide();
+        var parent_data_id= parent_select.attr('name');
+		parent_select.val( jQuery(this).attr('value') );
+		console.log(parent_select.attr('name'));
+        if( 'college_lists' == parent_select.attr('name') ){
+        	var selectedCollege = jQuery(this).attr('value');
+			var selectedCollegeID = jQuery(this).attr('value');
+			var action = 'filter_pf_department_list';
+			jQuery.ajax({
+				url: ajax_display.ajax_url,
+				type: 'POST',
+				dataType: 'json',
+				data:{
+					selectedCollegeID: selectedCollegeID,
+	            	selectedCollege: selectedCollege,
+	            	security: ajax_display.nonce,
+	            	action: action,
+				},				
+				beforeSend: function() {
+				},
+				success: function(data) {					
+					var html_department ='';
+					var html_head ='';
+					jQuery('.dropdown-wrapper div[data-query-var="department_lists"] div.select-styled').text('All Departments');
+        			jQuery('.dropdown-wrapper div[data-query-var="department_lists"] div.select-styled').attr('value','');
+        			if( data.department && data.department.length != 0 ){
+						html_department += '<li rel="" value="">All Departments</li>';
+						jQuery.each(data.department, function(k, v) {
+							html_department += '<li rel="'+data.department[k]['ID']+'" value="'+data.department[k]['ID']+'">'+data.department[k]['title']+'</li>';
+						  	
+						});
+						jQuery('.dropdown-wrapper div[data-query-var="department_lists"] ul.select-options').html(html_department);
+					}
+					else{
+						jQuery('.dropdown-wrapper div[data-query-var="department_lists"] ul.select-options').html('<li rel="" value="">Department Not Found</li>');
+					}
+				},
+				error: function(errorThrown){
+					console.log(errorThrown);
+					return false;
+				}
+			});
+		}
+		return false;
+    });	 
+	
+	// change college on change campus
+	jQuery(document).on( "click", '.campus-wrapper ul.select-options li', function(e) {
+    	e.stopPropagation();
+		jQuery(this).parent('ul.select-options').find('li').removeClass('is_selected');
+    	jQuery(this).addClass('is_selected');
+		var parent = jQuery(this).parents('.select')
+    	var parent_select = jQuery(this).parents('.select').find('select');
+    	parent.find('.select-styled').text( jQuery(this).text() ).removeClass('active');
+        parent.find('.select-styled').attr( 'value', jQuery(this).attr('value') );
+        jQuery(this).parent('ul').hide();
+        var parent_data_id= parent_select.attr('name');
+		parent_select.val( jQuery(this).attr('value') );
+// 		console.log(parent_select.attr('name'));
+//         if( 'campus' == parent_select.attr('name') ){
+        	var selectedCampus = jQuery(this).attr('value');
+			var selectedCampusID = jQuery(this).attr('value');
+			var action = 'filter_pf_college_list';
+			jQuery.ajax({
+				url: ajax_display.ajax_url,
+				type: 'POST',
+				dataType: 'json',
+				data:{
+					selectedCampusID: selectedCampusID,
+	            	selectedCampus: selectedCampus,
+	            	security: ajax_display.nonce,
+	            	action: action,
+				},				
+				beforeSend: function() {
+				},
+				success: function(data) {
+					console.log(data);
+					var html_college ='';
+					var html_head ='';	
+					jQuery('.dropdown-wrapper div[data-query-var="college_lists"] div.select-styled').attr('value','');
+					jQuery('.dropdown-wrapper div[data-query-var="college_lists"] div.select-styled').text('All Colleges');
+					if(data.college && data.college.length != 0){
+						html_college += '<li rel="" value="">All Colleges</li>';
+						jQuery.each(data.college, function(k, v) {
+							html_college += '<li rel="'+data.college[k]['ID']+'" value="'+data.college[k]['ID']+'">'+data.college[k]['title']+'</li>';
+						  	
+						});
+						jQuery('.dropdown-wrapper div[data-query-var="college_lists"] ul.select-options').html(html_college);
+					}
+					else{
+						jQuery('.dropdown-wrapper div[data-query-var="college_lists"] ul.select-options').html('<li rel="" value="">College Not Found</li>');
+						jQuery('.dropdown-wrapper div[data-query-var="department_lists"] ul.select-options').html('<li rel="" value="">Department Not Found</li>');
+					}
+				},
+				error: function(errorThrown){
+					console.log(errorThrown);
+					return false;
+				}
+			});
+// 		}
+		return false;
+    });	 
+});

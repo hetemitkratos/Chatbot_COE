@@ -1,0 +1,68 @@
+.elementor-15155 .elementor-element.elementor-element-309ecf60 > .elementor-element-populated{padding:0px 0px 0px 0px;}.elementor-15155 .elementor-element.elementor-element-257fa1c0 > .elementor-element-populated{padding:0px 0px 0px 30px;}.elementor-15155 .elementor-element.elementor-element-c0e1835 .elementor-heading-title{font-family:"Butler", Sans-serif;font-size:24px;font-weight:700;line-height:30px;}.elementor-15155 .elementor-element.elementor-element-4b5ed79c{padding:0px 0px 0px 0px;}.elementor-15155 .elementor-element.elementor-element-2d77f9a3 > .elementor-element-populated{padding:0px 0px 0px 0px;}@media(min-width:768px){.elementor-15155 .elementor-element.elementor-element-309ecf60{width:27.121%;}.elementor-15155 .elementor-element.elementor-element-257fa1c0{width:72.879%;}}@media(max-width:1024px){.elementor-15155 .elementor-element.elementor-element-1a0457f6{padding:0px 30px 0px 20px;}.elementor-15155 .elementor-element.elementor-element-c0e1835 .elementor-heading-title{font-size:20px;}}@media(max-width:767px){.elementor-15155 .elementor-element.elementor-element-309ecf60{width:27.1%;}.elementor-15155 .elementor-element.elementor-element-309ecf60 > .elementor-element-populated{padding:0px 0px 0px 0px;}.elementor-15155 .elementor-element.elementor-element-257fa1c0{width:72.87%;}.elementor-15155 .elementor-element.elementor-element-257fa1c0 > .elementor-element-populated{padding:0px 0px 0px 20px;}.elementor-15155 .elementor-element.elementor-element-c0e1835 .elementor-heading-title{font-size:18px;line-height:21px;}}/* Start custom CSS for theme-post-title, class: .elementor-element-c0e1835 */.elementor-15155 .elementor-element.elementor-element-c0e1835{
+    margin-bottom:15px;
+}/* End custom CSS */
+/* Start custom CSS for shortcode, class: .elementor-element-375b450f */.elementor-15155 .elementor-element.elementor-element-375b450f{
+    font-family: 'Source Sans Pro';
+    color: #000;
+    font-size: 18px;
+    line-height: 26px;
+}
+.elementor-15155 .elementor-element.elementor-element-375b450f span{
+    font-weight: 600;
+}
+
+@media(min-width:767px) and (max-width:1024px){
+    .elementor-15155 .elementor-element.elementor-element-375b450f{
+    font-size: 16px;
+}
+}/* End custom CSS */
+/* Start Custom Fonts CSS */@font-face {
+	font-family: 'Butler';
+	font-style: normal;
+	font-weight: bold;
+	font-display: auto;
+	src: url('https://www.srmist.edu.in/wp-content/uploads/2022/01/Butler_Black.woff') format('woff');
+}
+@font-face {
+	font-family: 'Butler';
+	font-style: normal;
+	font-weight: 700;
+	font-display: auto;
+	src: url('https://www.srmist.edu.in/wp-content/uploads/2022/01/Butler_ExtraBold.woff') format('woff');
+}
+@font-face {
+	font-family: 'Butler';
+	font-style: normal;
+	font-weight: 600;
+	font-display: auto;
+	src: url('https://www.srmist.edu.in/wp-content/uploads/2022/01/Butler_Bold.woff') format('woff');
+}
+@font-face {
+	font-family: 'Butler';
+	font-style: normal;
+	font-weight: 500;
+	font-display: auto;
+	src: url('https://www.srmist.edu.in/wp-content/uploads/2022/01/Butler_Medium.woff') format('woff');
+}
+@font-face {
+	font-family: 'Butler';
+	font-style: normal;
+	font-weight: 400;
+	font-display: auto;
+	src: url('https://www.srmist.edu.in/wp-content/uploads/2022/01/Butler_Regular.woff') format('woff');
+}
+@font-face {
+	font-family: 'Butler';
+	font-style: normal;
+	font-weight: 200;
+	font-display: auto;
+	src: url('https://www.srmist.edu.in/wp-content/uploads/2022/01/Butler_Light.woff') format('woff');
+}
+@font-face {
+	font-family: 'Butler';
+	font-style: normal;
+	font-weight: 100;
+	font-display: auto;
+	src: url('https://www.srmist.edu.in/wp-content/uploads/2022/01/Butler_Ultra_Light.woff') format('woff');
+}
+/* End Custom Fonts CSS */
