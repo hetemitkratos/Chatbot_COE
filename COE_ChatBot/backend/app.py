@@ -5,7 +5,7 @@ import os
 from datetime import datetime
 import json
 import hashlib
-from sentence_transformers import SentenceTransformer
+from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 import numpy as np
 import re
@@ -26,20 +26,38 @@ CORS(app, supports_credentials=True)
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-# Initialize Sentence Transformer for better semantic matching
-model = SentenceTransformer('all-MiniLM-L6-v2')
-
 # Load knowledge base
 with open('knowledge_base.json', 'r', encoding='utf-8') as f:
     KNOWLEDGE_BASE = json.load(f)
 
-# Precompute embeddings for all questions
-QUESTION_EMBEDDINGS = {}
+# Initialize TF-IDF Vectorizer
+# Use simple English stop words to reduce noise
+vectorizer = TfidfVectorizer(stop_words='english')
+
+# Prepare corpus for TF-IDF
+ALL_QUESTIONS = []
+ALL_ITEMS = []
+ALL_CATEGORIES = []
+
 for category, items in KNOWLEDGE_BASE.items():
     if isinstance(items, list):
         for item in items:
             if 'question' in item:
-                QUESTION_EMBEDDINGS[item['question']] = model.encode(item['question'])
+                ALL_QUESTIONS.append(item['question'])
+                ALL_ITEMS.append(item)
+                ALL_CATEGORIES.append(category)
+
+# Fit vectorizer on startup
+try:
+    if ALL_QUESTIONS:
+        TFIDF_MATRIX = vectorizer.fit_transform(ALL_QUESTIONS)
+        logger.info(f"TF-IDF Matrix created with {len(ALL_QUESTIONS)} questions.")
+    else:
+        TFIDF_MATRIX = None
+        logger.warning("Knowledge base appears empty or malformed.")
+except Exception as e:
+    logger.error(f"Error creating TF-IDF matrix: {e}")
+    TFIDF_MATRIX = None
 
 # Feedback storage
 FEEDBACK_FILE = 'feedback_data.json'
@@ -72,50 +90,30 @@ def extract_keywords(query: str) -> List[str]:
     keywords = [w for w in words if w not in stop_words and len(w) > 2]
     return keywords
 
-def find_best_match(query: str, threshold: float = 0.5) -> Tuple[Dict, float, str]:
-    """Find best matching answer using semantic similarity"""
-    query_embedding = model.encode(query)
-    
-    best_match = None
-    best_score = 0
-    best_category = ""
-    
-    for category, items in KNOWLEDGE_BASE.items():
-        if isinstance(items, list):
-            for item in items:
-                if 'question' in item:
-                    # Calculate semantic similarity
-                    similarity = cosine_similarity(
-                        [query_embedding], 
-                        [QUESTION_EMBEDDINGS[item['question']]]
-                    )[0][0]
-                    
-                    # Convert numpy float32 to Python float
-                    similarity = float(similarity)
-                    
-                    if similarity > best_score:
-                        best_score = similarity
-                        best_match = item
-                        best_category = category
-    
-    # If similarity too low, try keyword matching
-    if best_score < threshold:
-        keywords = extract_keywords(query)
-        for category, items in KNOWLEDGE_BASE.items():
-            if isinstance(items, list):
-                for item in items:
-                    question_lower = item.get('question', '').lower()
-                    answer_lower = item.get('answer', '').lower()
-                    
-                    keyword_matches = sum(1 for kw in keywords if kw in question_lower or kw in answer_lower)
-                    keyword_score = keyword_matches / max(len(keywords), 1)
-                    
-                    if keyword_score > best_score:
-                        best_score = keyword_score
-                        best_match = item
-                        best_category = category
-    
-    return best_match, float(best_score), best_category
+def find_best_match(query: str, threshold: float = 0.2) -> Tuple[Dict, float, str]:
+    """Find best matching answer using TF-IDF similarity"""
+    if TFIDF_MATRIX is None or not ALL_QUESTIONS:
+        return None, 0.0, ""
+
+    try:
+        # Transform query to vector
+        query_vec = vectorizer.transform([query])
+        
+        # Calculate similarities against all questions
+        similarities = cosine_similarity(query_vec, TFIDF_MATRIX).flatten()
+        
+        # Find index of highest score
+        best_idx = np.argmax(similarities)
+        best_score = float(similarities[best_idx])
+        
+        if best_score < threshold:
+            return None, best_score, ""
+            
+        return ALL_ITEMS[best_idx], best_score, ALL_CATEGORIES[best_idx]
+        
+    except Exception as e:
+        logger.error(f"Error in find_best_match: {e}")
+        return None, 0.0, ""
 
 def format_response(match: Dict, category: str, confidence: float) -> Dict:
     """Format the response with rich content"""
