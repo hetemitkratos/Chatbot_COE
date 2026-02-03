@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: coe-chatbot
+    env: python
+    buildCommand: pip install -r COE_ChatBot/backend/requirements.txt
+    startCommand: cd COE_ChatBot/backend && gunicorn app:app
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.0

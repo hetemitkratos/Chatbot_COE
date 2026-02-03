@@ -12,7 +12,11 @@ import re
 from typing import List, Dict, Tuple
 import logging
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='../frontend', static_url_path='')
+
+@app.route('/')
+def index():
+    return app.send_static_file('index.html')
 app.config['SECRET_KEY'] = os.urandom(24)
 app.config['SESSION_TYPE'] = 'filesystem'
 Session(app)

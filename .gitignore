@@ -1,0 +1,16 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+venv313/
+.env
+
+# Flask
+instance/
+.webassets-cache
+flask_session/
+
+# OS
+.DS_Store
+Thumbs.db
