@@ -98,8 +98,8 @@ async function checkBackendHealth() {
   } catch (error) {
     console.error("Backend health check failed:", error);
     showNotification(
-      "Connection error. Please check if the backend is running.",
-      "error",
+      "Connecting to server... (this may take a minute on free tier)",
+      "info",
     );
   }
 }
@@ -162,7 +162,7 @@ async function sendMessage() {
     console.error("Error sending message:", error);
     addMessageToChat(
       "bot",
-      "⚠️ Connection error. Please check if the backend server is running on port 5000.",
+      "⚠️ Connection error. The server might be sleeping (it takes ~50s to wake up) or offline.",
     );
   }
 }
