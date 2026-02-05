@@ -7,120 +7,76 @@ const userInput = document.getElementById("userInput");
 const sendButton = document.getElementById("sendButton");
 const typingIndicator = document.getElementById("typingIndicator");
 const clearChatBtn = document.getElementById("clearChat");
-const helpBtn = document.getElementById("helpBtn");
-const charCount = document.getElementById("charCount");
-const quickActionsContainer = document.getElementById("quickActionsContainer");
-
-// Modal Elements
-const feedbackModal = document.getElementById("feedbackModal");
-const helpModal = document.getElementById("helpModal");
-const closeFeedbackModal = document.getElementById("closeFeedbackModal");
-const closeHelpModal = document.getElementById("closeHelpModal");
-
-// State
-let currentConversationId = null;
-let isTyping = false;
 
 // Initialize
 document.addEventListener("DOMContentLoaded", () => {
-  initializeApp();
   setupEventListeners();
-  updateWelcomeTime();
+  // Focus input on load
+  if (userInput) userInput.focus();
 });
-
-function initializeApp() {
-  // Check backend health
-  checkBackendHealth();
-
-  // Auto-resize textarea
-  userInput.addEventListener("input", () => {
-    autoResizeTextarea();
-    updateCharCount();
-  });
-
-  // Load conversation history from localStorage
-  loadConversationHistory();
-}
 
 function setupEventListeners() {
   // Send message
-  sendButton.addEventListener("click", sendMessage);
-  userInput.addEventListener("keydown", (e) => {
-    if (e.key === "Enter" && !e.shiftKey) {
-      e.preventDefault();
-      sendMessage();
-    }
-  });
+  if (sendButton) {
+    sendButton.addEventListener("click", sendMessage);
+  }
 
-  // Quick action buttons
-  document.querySelectorAll(".quick-action-btn").forEach((btn) => {
-    btn.addEventListener("click", () => {
-      const question = btn.dataset.question;
-      userInput.value = question;
-      sendMessage();
+  if (userInput) {
+    userInput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" && !e.shiftKey) {
+        e.preventDefault();
+        sendMessage();
+      }
     });
-  });
+
+    // Auto-resize
+    userInput.addEventListener("input", function() {
+        this.style.height = 'auto';
+        this.style.height = (this.scrollHeight) + 'px';
+    });
+  }
 
   // Clear chat
-  clearChatBtn.addEventListener("click", clearChat);
+  if (clearChatBtn) {
+    clearChatBtn.addEventListener("click", clearChat);
+  }
 
-  // Help button
-  helpBtn.addEventListener("click", () => {
-    helpModal.style.display = "flex";
-  });
-
-  // Close modals
-  closeHelpModal.addEventListener("click", () => {
-    helpModal.style.display = "none";
-  });
-
-  closeFeedbackModal.addEventListener("click", () => {
-    feedbackModal.style.display = "none";
-  });
-
-  // Close modals on outside click
-  window.addEventListener("click", (e) => {
-    if (e.target === helpModal) {
-      helpModal.style.display = "none";
-    }
-    if (e.target === feedbackModal) {
-      feedbackModal.style.display = "none";
-    }
-  });
-}
-
-async function checkBackendHealth() {
-  try {
-    const response = await fetch(`${API_BASE_URL}/health`);
-    if (response.ok) {
-      console.log("Backend is healthy");
-    }
-  } catch (error) {
-    console.error("Backend health check failed:", error);
-    showNotification(
-      "Connecting to server... (this may take a minute on free tier)",
-      "info",
-    );
+  // Event Delegation for Feature Cards (Welcome Screen)
+  if (messagesContainer) {
+    messagesContainer.addEventListener("click", (e) => {
+      // Find closest feature-card or feature-item
+      const featureItem = e.target.closest(".feature-item") || e.target.closest(".feature-card");
+      
+      if (featureItem) {
+        const question = featureItem.dataset.question;
+        if (question) {
+          // Send the question directly
+          sendMessage(question);
+        }
+      }
+    });
   }
 }
 
-async function sendMessage() {
-  const message = userInput.value.trim();
+async function sendMessage(manualMessage = null) {
+  const message = manualMessage || userInput.value.trim();
 
-  if (!message || isTyping) return;
+  if (!message || (isTyping && !manualMessage)) return;
 
-  // Hide quick actions after first message
-  if (quickActionsContainer) {
-    quickActionsContainer.style.display = "none";
+  // Clear input if it was user typed
+  if (!manualMessage && userInput) {
+    userInput.value = "";
+    userInput.style.height = 'auto';
+  }
+
+  // Hide Hero Welcome Screen if it exists (first message)
+  const heroWelcome = document.querySelector(".hero-welcome");
+  if (heroWelcome) {
+    heroWelcome.style.display = "none";
   }
 
   // Add user message to chat
   addMessageToChat("user", message);
-
-  // Clear input
-  userInput.value = "";
-  autoResizeTextarea();
-  updateCharCount();
 
   // Show typing indicator
   showTypingIndicator();
@@ -142,18 +98,11 @@ async function sendMessage() {
     isTyping = false;
 
     if (response.ok) {
-      // Store conversation ID for feedback
-      currentConversationId = data.conversation_id;
-
-      // Add bot response
       addBotResponse(data);
-
-      // Save to localStorage
-      saveConversationToLocalStorage(message, data);
     } else {
       addMessageToChat(
         "bot",
-        data.error || "Sorry, something went wrong. Please try again.",
+        data.error || "Sorry, something went wrong. Please try again."
       );
     }
   } catch (error) {
@@ -162,43 +111,48 @@ async function sendMessage() {
     console.error("Error sending message:", error);
     addMessageToChat(
       "bot",
-      "⚠️ Connection error. The server might be sleeping (it takes ~50s to wake up) or offline.",
+      "⚠️ Connection error. Please check if the backend server is running."
     );
   }
 }
+
+let isTyping = false;
 
 function addMessageToChat(sender, content) {
   const messageWrapper = document.createElement("div");
   messageWrapper.className = `message-wrapper ${sender}-wrapper`;
 
-  if (sender === "bot") {
-    const avatar = document.createElement("div");
-    avatar.className = "message-avatar bot-avatar";
+  // Avatar
+  const avatar = document.createElement("div");
+  avatar.className = `message-avatar ${sender}-avatar`;
+  
+  if (sender === 'bot') {
     avatar.innerHTML = `
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
-                <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
-            </svg>
-        `;
-    messageWrapper.appendChild(avatar);
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+            <path d="M12 2a10 10 0 0 1 10 10c0 5.523-4.477 10-10 10S2 17.523 2 12 6.477 2 12 2z"/>
+            <path d="M12 2v2m0 16v2M2 12h2m16 0h2"/>
+        </svg>
+    `;
+  } else {
+    avatar.innerHTML = `
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+            <circle cx="12" cy="7" r="4"/>
+        </svg>
+    `;
   }
 
+  // Content Bubble
   const messageContent = document.createElement("div");
-  messageContent.className = `message-content ${sender}-message`;
+  messageContent.className = "message-content";
 
-  const messageHeader = document.createElement("div");
-  messageHeader.className = "message-header";
-  messageHeader.innerHTML = `
-        <strong>${sender === "bot" ? "COE Assistant" : "You"}</strong>
-        <span class="message-time">${getCurrentTime()}</span>
-    `;
+  const bubble = document.createElement("div");
+  // CRITICAL FIX: Use 'message-bubble' to match CSS, not 'message-text'
+  bubble.className = "message-bubble"; 
+  bubble.innerHTML = formatText(content);
 
-  const messageText = document.createElement("div");
-  messageText.className = "message-text";
-  messageText.innerHTML = `<p>${escapeHtml(content)}</p>`;
-
-  messageContent.appendChild(messageHeader);
-  messageContent.appendChild(messageText);
+  messageContent.appendChild(bubble);
+  messageWrapper.appendChild(avatar);
   messageWrapper.appendChild(messageContent);
 
   messagesContainer.appendChild(messageWrapper);
@@ -206,235 +160,187 @@ function addMessageToChat(sender, content) {
 }
 
 function addBotResponse(data) {
-  const messageWrapper = document.createElement("div");
-  messageWrapper.className = "message-wrapper bot-wrapper";
+    const messageWrapper = document.createElement("div");
+    messageWrapper.className = "message-wrapper bot-wrapper";
 
-  const avatar = document.createElement("div");
-  avatar.className = "message-avatar bot-avatar";
-  avatar.innerHTML = `
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
-            <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+    // Bot Avatar
+    const avatar = document.createElement("div");
+    avatar.className = "message-avatar bot-avatar";
+    avatar.innerHTML = `
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+            <path d="M12 2a10 10 0 0 1 10 10c0 5.523-4.477 10-10 10S2 17.523 2 12 6.477 2 12 2z"/>
+            <path d="M12 2v2m0 16v2M2 12h2m16 0h2"/>
         </svg>
     `;
-  messageWrapper.appendChild(avatar);
 
-  const messageContent = document.createElement("div");
-  messageContent.className = "message-content bot-message";
+    const messageContent = document.createElement("div");
+    messageContent.className = "message-content";
 
-  const messageHeader = document.createElement("div");
-  messageHeader.className = "message-header";
-  messageHeader.innerHTML = `
-        <strong>COE Assistant</strong>
-        <span class="message-time">${getCurrentTime()}</span>
-    `;
+    const bubble = document.createElement("div");
+    bubble.className = "message-bubble";
 
-  const messageText = document.createElement("div");
-  messageText.className = "message-text";
+    // Main Answer
+    let htmlContent = `<p>${formatText(data.answer)}</p>`;
 
-  // Main answer
-  messageText.innerHTML = `<p>${formatText(data.answer)}</p>`;
+    // Steps
+    if (data.steps && data.steps.length > 0) {
+        htmlContent += `<div style="margin-top:10px;"><strong>📝 Steps:</strong><ol style="padding-left:20px; margin-top:5px;">`;
+        data.steps.forEach(step => {
+            htmlContent += `<li>${formatText(step)}</li>`;
+        });
+        htmlContent += `</ol></div>`;
+    }
 
-  // Add steps if available
-  if (data.steps && data.steps.length > 0) {
-    const stepsList = document.createElement("div");
-    stepsList.className = "steps-container";
-    stepsList.innerHTML =
-      "<strong>📝 Steps:</strong><ol>" +
-      data.steps.map((step) => `<li>${formatText(step)}</li>`).join("") +
-      "</ol>";
-    messageText.appendChild(stepsList);
-  }
+    // Important Notes
+    if (data.important_notes && data.important_notes.length > 0) {
+        htmlContent += `<div style="margin-top:10px; color:#ff0055;"><strong>⚠️ Important:</strong><ul style="padding-left:20px; margin-top:5px;">`;
+        data.important_notes.forEach(note => {
+            htmlContent += `<li>${formatText(note)}</li>`;
+        });
+        htmlContent += `</ul></div>`;
+    }
 
-  // Add important notes if available
-  if (data.important_notes && data.important_notes.length > 0) {
-    const notesList = document.createElement("div");
-    notesList.className = "notes-container";
-    notesList.innerHTML =
-      "<strong>⚠️ Important Notes:</strong><ul>" +
-      data.important_notes
-        .map((note) => `<li>${formatText(note)}</li>`)
-        .join("") +
-      "</ul>";
-    messageText.appendChild(notesList);
-  }
+    // Links
+    if (data.related_links && data.related_links.length > 0) {
+        htmlContent += `<div style="margin-top:10px;"><strong>🔗 Links:</strong><ul style="padding-left:20px; margin-top:5px;">`;
+        data.related_links.forEach(link => {
+            const url = typeof link === 'object' ? link.url : link;
+            const text = typeof link === 'object' ? link.text : 'Click here';
+            htmlContent += `<li><a href="${url}" target="_blank">${text}</a></li>`;
+        });
+        htmlContent += `</ul></div>`;
+    }
 
-  // Add additional info if available
-  if (data.additional_info && data.additional_info.length > 0) {
-    const infoList = document.createElement("div");
-    infoList.className = "info-container";
-    infoList.innerHTML =
-      "<strong>ℹ️ Additional Information:</strong><ul>" +
-      data.additional_info
-        .map((info) => `<li>${formatText(info)}</li>`)
-        .join("") +
-      "</ul>";
-    messageText.appendChild(infoList);
-  }
+    bubble.innerHTML = htmlContent;
+    messageContent.appendChild(bubble);
 
-  // Add related links if available
-  if (data.related_links && data.related_links.length > 0) {
-    const linksList = document.createElement("div");
-    linksList.className = "links-container";
-    linksList.innerHTML =
-      "<strong>🔗 Related Links:</strong><ul>" +
-      data.related_links
-        .map((link) => {
-          if (typeof link === "object") {
-            return `<li><a href="${link.url}" target="_blank">${link.title}</a></li>`;
-          }
-          return `<li><a href="${link}" target="_blank">${link}</a></li>`;
-        })
-        .join("") +
-      "</ul>";
-    messageText.appendChild(linksList);
-  }
+    // Suggestions (Clickable Chips)
+    if (data.suggestions && data.suggestions.length > 0) {
+        const suggestionsContainer = document.createElement("div");
+        suggestionsContainer.className = "suggestions-container";
+        suggestionsContainer.style.marginTop = "10px";
+        suggestionsContainer.style.display = "flex";
+        suggestionsContainer.style.flexWrap = "wrap";
+        suggestionsContainer.style.gap = "8px";
 
-  // Add suggestions if available
-  if (data.suggestions && data.suggestions.length > 0) {
-    const suggestionsList = document.createElement("div");
-    suggestionsList.className = "suggestions-container";
-    suggestionsList.innerHTML =
-      "<strong>💡 I can help you with:</strong><ul>" +
-      data.suggestions
-        .map((suggestion) => `<li>${formatText(suggestion)}</li>`)
-        .join("") +
-      "</ul>";
-    messageText.appendChild(suggestionsList);
-  }
+        data.suggestions.forEach(suggestion => {
+            const chip = document.createElement("button");
+            chip.className = "suggestion-chip";
+            chip.textContent = suggestion;
+            chip.onclick = () => sendMessage(suggestion);
+            
+            // Inline styles for chips (can be moved to CSS later)
+            chip.style.padding = "8px 16px";
+            chip.style.background = "rgba(255, 255, 255, 0.1)";
+            chip.style.border = "1px solid rgba(255, 255, 255, 0.2)";
+            chip.style.borderRadius = "20px";
+            chip.style.color = "white";
+            chip.style.cursor = "pointer";
+            chip.style.fontSize = "0.9rem";
+            chip.style.transition = "all 0.3s ease";
+            
+            chip.onmouseover = () => {
+                chip.style.background = "rgba(0, 242, 234, 0.2)";
+                chip.style.borderColor = "#00f2ea";
+            };
+            chip.onmouseout = () => {
+                chip.style.background = "rgba(255, 255, 255, 0.1)";
+                chip.style.borderColor = "rgba(255, 255, 255, 0.2)";
+            };
 
-  // Add contact info if available
-  if (data.contact_info) {
-    const contactInfo = document.createElement("div");
-    contactInfo.className = "contact-info-container";
-    contactInfo.innerHTML = `
-            <strong>📞 Contact Information:</strong>
-            <p><strong>Office:</strong> ${data.contact_info.office}</p>
-            <p><strong>Location:</strong> ${data.contact_info.location}</p>
-            <p><strong>Phone:</strong> ${data.contact_info.phone}</p>
-            <p><strong>Email:</strong> ${data.contact_info.email}</p>
+            suggestionsContainer.appendChild(chip);
+        });
+        
+        messageContent.appendChild(suggestionsContainer);
+    }
+
+
+
+    // Add contact info if available
+    if (data.contact_info) {
+        const contactInfo = document.createElement("div");
+        contactInfo.className = "contact-info-container";
+        contactInfo.style.marginTop = "15px";
+        contactInfo.style.padding = "15px";
+        contactInfo.style.background = "rgba(255, 255, 255, 0.05)";
+        contactInfo.style.borderRadius = "12px";
+        contactInfo.style.border = "1px solid rgba(255, 255, 255, 0.1)";
+
+        // Phone Section
+        const phoneHtml = `
+            <div style="margin-bottom: 10px; display: flex; align-items: center; justify-content: space-between;">
+                <div>
+                    <strong style="display:block; font-size:0.85rem; color:rgba(255,255,255,0.7);">PHONE</strong>
+                    <span style="font-size:1rem;">${data.contact_info.phone}</span>
+                </div>
+                <button onclick="copyToClipboard('${data.contact_info.phone}')" class="action-icon-btn" title="Copy Number" style="background:none; border:none; cursor:pointer; color:#00f2ea; padding:5px; transition: opacity 0.2s;">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                    </svg>
+                </button>
+            </div>
         `;
-    messageText.appendChild(contactInfo);
-  }
 
-  // Add confidence indicator if high confidence
-  if (data.confidence && data.confidence > 70) {
-    const confidence = document.createElement("div");
-    confidence.className = "confidence-indicator";
-    confidence.innerHTML = `<small>🎯 Confidence: ${data.confidence}%</small>`;
-    messageText.appendChild(confidence);
-  }
+        // Email Section (Gmail Link)
+        const emailHtml = `
+            <div style="margin-bottom: 10px; display: flex; align-items: center; justify-content: space-between;">
+                <div>
+                    <strong style="display:block; font-size:0.85rem; color:rgba(255,255,255,0.7);">EMAIL</strong>
+                    <span style="font-size:1rem;">${data.contact_info.email}</span>
+                </div>
+                <a href="https://mail.google.com/mail/?view=cm&fs=1&to=${data.contact_info.email}" target="_blank" class="action-icon-btn" title="Draft on Gmail" style="text-decoration:none; color:#ff0055; padding:5px; display:flex; align-items:center;">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                        <polyline points="22,6 12,13 2,6"></polyline>
+                    </svg>
+                </a>
+            </div>
+        `;
 
-  // Add feedback buttons
-  const feedbackButtons = document.createElement("div");
-  feedbackButtons.className = "feedback-buttons";
-  feedbackButtons.innerHTML = `
-        <button class="feedback-btn thumbs-up" title="Helpful" data-rating="5">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/>
-            </svg>
-        </button>
-        <button class="feedback-btn thumbs-down" title="Not helpful" data-rating="1">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3zm7-13h2.67A2.31 2.31 0 0 1 22 4v7a2.31 2.31 0 0 1-2.33 2H17"/>
-            </svg>
-        </button>
-    `;
+        // Location & Office
+        const detailsHtml = `
+            <div style="font-size:0.9rem; color:rgba(255,255,255,0.8); margin-top:10px; border-top:1px solid rgba(255,255,255,0.1); padding-top:10px;">
+                <p style="margin:0 0 5px 0;"><strong>Office:</strong> ${data.contact_info.office}</p>
+                <p style="margin:0;"><strong>Location:</strong> ${data.contact_info.location}</p>
+            </div>
+        `;
 
-  messageContent.appendChild(messageHeader);
-  messageContent.appendChild(messageText);
-  messageContent.appendChild(feedbackButtons);
-  messageWrapper.appendChild(messageContent);
+        contactInfo.innerHTML = phoneHtml + emailHtml + detailsHtml;
+        messageContent.appendChild(contactInfo);
+    }
 
-  messagesContainer.appendChild(messageWrapper);
-
-  // Add feedback event listeners
-  feedbackButtons.querySelectorAll(".feedback-btn").forEach((btn) => {
-    btn.addEventListener("click", () => {
-      const rating = parseInt(btn.dataset.rating);
-      submitFeedback(rating);
-      btn.style.opacity = "0.5";
-      btn.disabled = true;
-    });
-  });
-
-  scrollToBottom();
+    messageWrapper.appendChild(avatar);
+    messageWrapper.appendChild(messageContent);
+    messagesContainer.appendChild(messageWrapper);
+    scrollToBottom();
 }
 
-async function submitFeedback(rating) {
-  if (!currentConversationId) return;
-
-  try {
-    const response = await fetch(`${API_BASE_URL}/feedback`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      credentials: "include",
-      body: JSON.stringify({
-        conversation_id: currentConversationId,
-        rating: rating,
-        comments: "",
-      }),
-    });
-
-    const data = await response.json();
-
-    if (data.success) {
-      showNotification("Thank you for your feedback!", "success");
-    }
-  } catch (error) {
-    console.error("Error submitting feedback:", error);
-  }
+function formatText(text) {
+    if (!text) return "";
+    text = text.replace(/(https?:\/\/[^\s]+)/g, '<a href="$1" target="_blank">$1</a>');
+    text = text.replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>");
+    text = text.replace(/\n/g, "<br>");
+    return text;
 }
 
 function showTypingIndicator() {
-  typingIndicator.style.display = "flex";
-  scrollToBottom();
+  if (typingIndicator) {
+      typingIndicator.style.display = "flex";
+      scrollToBottom();
+  }
 }
 
 function hideTypingIndicator() {
-  typingIndicator.style.display = "none";
+  if (typingIndicator) typingIndicator.style.display = "none";
 }
 
 function clearChat() {
-  if (confirm("Are you sure you want to clear the chat history?")) {
-    // Keep only the welcome message and quick actions
-    const welcomeMessage = messagesContainer.querySelector(".bot-wrapper");
-    const quickActions = document.getElementById("quickActionsContainer");
-
-    messagesContainer.innerHTML = "";
-    if (welcomeMessage) {
-      messagesContainer.appendChild(welcomeMessage.cloneNode(true));
-    }
-    if (quickActions) {
-      messagesContainer.appendChild(quickActions);
-      quickActions.style.display = "block";
-    }
-
-    // Clear localStorage
-    localStorage.removeItem("chatHistory");
-
-    showNotification("Chat cleared", "success");
-  }
-}
-
-function autoResizeTextarea() {
-  userInput.style.height = "auto";
-  userInput.style.height = Math.min(userInput.scrollHeight, 120) + "px";
-}
-
-function updateCharCount() {
-  const count = userInput.value.length;
-  charCount.textContent = count;
-
-  if (count > 450) {
-    charCount.style.color = "#dc2626";
-  } else if (count > 400) {
-    charCount.style.color = "#f59e0b";
-  } else {
-    charCount.style.color = "#6b7280";
-  }
+  // Clear messages
+  messagesContainer.innerHTML = "";
+  
+  // Restore Hero Welcome if we want (Lazy reload)
+  location.reload(); 
 }
 
 function scrollToBottom() {
@@ -443,122 +349,65 @@ function scrollToBottom() {
   }, 100);
 }
 
-function getCurrentTime() {
-  const now = new Date();
-  return now.toLocaleTimeString("en-US", {
-    hour: "2-digit",
-    minute: "2-digit",
-    hour12: true,
-  });
+// Helper to copy text to clipboard
+function copyToClipboard(text) {
+    if (navigator.clipboard) {
+        navigator.clipboard.writeText(text).then(() => {
+            showNotification("Number copied! 📋", "success");
+        }).catch(err => {
+            console.error('Failed to copy: ', err);
+            fallbackCopy(text);
+        });
+    } else {
+        fallbackCopy(text);
+    }
 }
 
-function updateWelcomeTime() {
-  const welcomeTimeElement = document.getElementById("welcomeTime");
-  if (welcomeTimeElement) {
-    welcomeTimeElement.textContent = getCurrentTime();
-  }
+function fallbackCopy(text) {
+    const textArea = document.createElement("textarea");
+    textArea.value = text;
+    textArea.style.position = "fixed";
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+    try {
+        const successful = document.execCommand('copy');
+        if (successful) showNotification("Number copied! 📋", "success");
+    } catch (err) {
+        console.error('Fallback copy failed', err);
+    }
+    document.body.removeChild(textArea);
 }
 
-function formatText(text) {
-  // Convert URLs to links
-  text = text.replace(
-    /(https?:\/\/[^\s]+)/g,
-    '<a href="$1" target="_blank">$1</a>',
-  );
+// Toast Notification
+function showNotification(message, type = 'info') {
+    // Check if notification container exists
+    let container = document.getElementById('notification-container');
+    if (!container) {
+        container = document.createElement('div');
+        container.id = 'notification-container';
+        document.body.appendChild(container);
+    }
 
-  // Convert bold text **text** to <strong>
-  text = text.replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>");
-
-  // Convert line breaks
-  text = text.replace(/\n/g, "<br>");
-
-  return text;
-}
-
-function escapeHtml(text) {
-  const div = document.createElement("div");
-  div.textContent = text;
-  return div.innerHTML;
-}
-
-function showNotification(message, type = "info") {
-  const notification = document.createElement("div");
-  notification.className = `notification notification-${type}`;
-  notification.textContent = message;
-  notification.style.cssText = `
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        padding: 15px 20px;
-        background: ${type === "success" ? "#10b981" : type === "error" ? "#ef4444" : "#3b82f6"};
-        color: white;
-        border-radius: 8px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        z-index: 10000;
-        animation: slideIn 0.3s ease-out;
+    const toast = document.createElement('div');
+    toast.className = `toast toast-${type}`;
+    toast.innerHTML = `
+        <span class="toast-icon">✨</span>
+        <span class="toast-message">${message}</span>
     `;
 
-  document.body.appendChild(notification);
+    container.appendChild(toast);
 
-  setTimeout(() => {
-    notification.style.animation = "slideOut 0.3s ease-out";
-    setTimeout(() => notification.remove(), 300);
-  }, 3000);
-}
-
-function saveConversationToLocalStorage(userMessage, botResponse) {
-  try {
-    let history = JSON.parse(localStorage.getItem("chatHistory") || "[]");
-    history.push({
-      user: userMessage,
-      bot: botResponse,
-      timestamp: new Date().toISOString(),
+    // Animate in
+    requestAnimationFrame(() => {
+        toast.classList.add('show');
     });
 
-    // Keep only last 50 conversations
-    if (history.length > 50) {
-      history = history.slice(-50);
-    }
-
-    localStorage.setItem("chatHistory", JSON.stringify(history));
-  } catch (error) {
-    console.error("Error saving to localStorage:", error);
-  }
+    // Remove after 3 seconds
+    setTimeout(() => {
+        toast.classList.remove('show');
+        setTimeout(() => {
+            container.removeChild(toast);
+        }, 300); // Wait for transition
+    }, 3000);
 }
-
-function loadConversationHistory() {
-  try {
-    const history = JSON.parse(localStorage.getItem("chatHistory") || "[]");
-    // Don't auto-load history to keep UI clean
-    // Users can reload if they want to see previous conversations
-  } catch (error) {
-    console.error("Error loading from localStorage:", error);
-  }
-}
-
-// Add CSS for notifications
-const style = document.createElement("style");
-style.textContent = `
-    @keyframes slideIn {
-        from {
-            transform: translateX(400px);
-            opacity: 0;
-        }
-        to {
-            transform: translateX(0);
-            opacity: 1;
-        }
-    }
-    
-    @keyframes slideOut {
-        from {
-            transform: translateX(0);
-            opacity: 1;
-        }
-        to {
-            transform: translateX(400px);
-            opacity: 0;
-        }
-    }
-`;
-document.head.appendChild(style);

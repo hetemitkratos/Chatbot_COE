@@ -21,5 +21,28 @@
       "timestamp": "2026-01-28T18:15:00.515251",
       "conversation_id": "1b26415a18cca84f1a4fa265de202044"
     }
+  },
+  {
+    "conversation_id": "b06779526255ec9266143a4d83667a58",
+    "rating": 5,
+    "comments": "",
+    "timestamp": "2026-02-05T01:51:54.667148",
+    "query": "What happens if I'm caught with a mobile phone?",
+    "response": {
+      "answer": "Possession of mobile phone in examination hall is STRICT MALPRACTICE:\n\nPunishment: Particular examination will be cancelled\n\nNote: Confiscated mobile phone return will be decided on case-by-case basis.\n\nThis rule applies even if:\n- Phone is switched off\n- You forgot it in your pocket\n- You didn't use it\n\nMobile phones, digital diaries, programmable calculators, and electronic gadgets are STRICTLY PROHIBITED.",
+      "category": "malpractice",
+      "confidence": 88.17,
+      "related_links": [],
+      "additional_info": [],
+      "steps": [],
+      "important_notes": [
+        "Zero tolerance policy",
+        "Examination cancelled immediately",
+        "Malpractice committee decides penalty",
+        "May affect future examinations"
+      ],
+      "timestamp": "2026-02-05T01:51:52.608252",
+      "conversation_id": "b06779526255ec9266143a4d83667a58"
+    }
   }
 ]

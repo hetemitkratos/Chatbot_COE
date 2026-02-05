@@ -5,12 +5,15 @@ import os
 from datetime import datetime
 import json
 import hashlib
-from sklearn.feature_extraction.text import TfidfVectorizer
+import math
+import string
+from sklearn.feature_extraction.text import TfidfVectorizer, ENGLISH_STOP_WORDS
 from sklearn.metrics.pairwise import cosine_similarity
 import numpy as np
 import re
 from typing import List, Dict, Tuple
 import logging
+import difflib
 
 app = Flask(__name__, static_folder='../frontend', static_url_path='')
 
@@ -31,9 +34,6 @@ with open('knowledge_base.json', 'r', encoding='utf-8') as f:
     KNOWLEDGE_BASE = json.load(f)
 
 # Initialize TF-IDF Vectorizer
-# Use simple English stop words to reduce noise
-vectorizer = TfidfVectorizer(stop_words='english')
-
 # Prepare corpus for TF-IDF
 ALL_QUESTIONS = []
 ALL_ITEMS = []
@@ -50,14 +50,19 @@ for category, items in KNOWLEDGE_BASE.items():
 # Fit vectorizer on startup
 try:
     if ALL_QUESTIONS:
+        # Add custom stop words to English stop words (like 'held' to avoid greedy matching on common verbs)
+        custom_stop_words = list(ENGLISH_STOP_WORDS) + ['held', 'get', 'make', 'do', 'does']
+        vectorizer = TfidfVectorizer(stop_words=custom_stop_words)
         TFIDF_MATRIX = vectorizer.fit_transform(ALL_QUESTIONS)
         logger.info(f"TF-IDF Matrix created with {len(ALL_QUESTIONS)} questions.")
     else:
         TFIDF_MATRIX = None
+        vectorizer = None
         logger.warning("Knowledge base appears empty or malformed.")
 except Exception as e:
     logger.error(f"Error creating TF-IDF matrix: {e}")
     TFIDF_MATRIX = None
+    vectorizer = None
 
 # Feedback storage
 FEEDBACK_FILE = 'feedback_data.json'
@@ -76,11 +81,7 @@ def save_feedback(feedback_data):
     with open(FEEDBACK_FILE, 'w', encoding='utf-8') as f:
         json.dump(existing_feedback, f, indent=2)
 
-def preprocess_query(query: str) -> str:
-    """Clean and normalize user query"""
-    query = query.lower().strip()
-    query = re.sub(r'[^\w\s?]', '', query)
-    return query
+
 
 def extract_keywords(query: str) -> List[str]:
     """Extract important keywords from query"""
@@ -90,29 +91,163 @@ def extract_keywords(query: str) -> List[str]:
     keywords = [w for w in words if w not in stop_words and len(w) > 2]
     return keywords
 
+def preprocess_query(query: str) -> str:
+    """Clean and normalize query"""
+    # 1. Basic clean
+    query = query.lower().translate(str.maketrans('', '', string.punctuation))
+    
+    # 2. Explicit Typo Correction
+    TYPO_MAP = {
+        'reult': 'results',
+        'resul': 'results',
+        'result': 'results',
+        'marks': 'results',
+        'score': 'results',
+        'xam': 'exam',
+        'exam': 'examination',
+        'cert': 'certificate',
+        'malprac': 'malpractice',
+        'hld': 'held',
+        'arrear': 'arrears',
+        'fees': 'fee',
+        'exams': 'examination',
+        'certificates': 'certificate',
+        'transcripts': 'transcript',
+        'mark': 'results',
+        'points': 'results'
+    }
+    
+    words = query.split()
+    corrected_words = [TYPO_MAP.get(w, w) for w in words]
+    return " ".join(corrected_words)
+
 def find_best_match(query: str, threshold: float = 0.2) -> Tuple[Dict, float, str]:
-    """Find best matching answer using TF-IDF similarity"""
+    """Find best matching answer using TF-IDF similarity with Critical Keyword Enforcement"""
     if TFIDF_MATRIX is None or not ALL_QUESTIONS:
+        logger.warning("TF-IDF Matrix is None or Empty")
         return None, 0.0, ""
 
     try:
-        # Transform query to vector
+        # 1. Transform query to vector
         query_vec = vectorizer.transform([query])
         
-        # Calculate similarities against all questions
+        # 2. Calculate similarities against all questions
         similarities = cosine_similarity(query_vec, TFIDF_MATRIX).flatten()
         
-        # Find index of highest score
-        best_idx = np.argmax(similarities)
-        best_score = float(similarities[best_idx])
+        # 3. Get top ALL candidates (not just one) to check for context
+        # Get indices of top 5 matches
+        top_indices = np.argsort(similarities)[::-1][:5]
         
-        if best_score < threshold:
-            return None, best_score, ""
+        # Define CRITICAL KEYWORDS that usually change the context entirely
+        # If user says these, the answer MUST contain related terms
+        critical_contexts = {
+            'malpractice': ['malpractice', 'punishment', 'caught', 'cheating', 'mobile', 'copy'],
+            'arrear': ['arrear', 'fail', 'supplementary', 'backlog'],
+            'absent': ['absent', 'miss', 'sick', 'medical'],
+            'fee': ['fee', 'payment', 'paid', 'fine'],
+            'revaluation': ['revaluation', 'review', 'retotaling'],
+            'transcript': ['transcript'],
+            'duplicate': ['duplicate', 'lost'],
+            'convocation': ['convocation', 'degree', 'rank', 'medal']
+        }
+        
+        query_lower = query.lower()
+        active_critical_context = None
+        
+        # Check if query has any critical keyword
+        for context, keywords in critical_contexts.items():
+            if any(k in query_lower for k in keywords):
+                active_critical_context = keywords
+                logger.info(f"Critical context detected: {context}")
+                break
+        
+        best_match = None
+        best_score = 0.0
+        best_category = ""
+        
+        for idx in top_indices:
+            score = float(similarities[idx])
+            question_text = ALL_QUESTIONS[idx].lower()
             
-        return ALL_ITEMS[best_idx], best_score, ALL_CATEGORIES[best_idx]
+            # Context Validation
+            if active_critical_context:
+                # If we are in a critical context, the candidate question MUST typically share some context
+                # OR be very broadly relevant. 
+                # We enforce that if the User said "malpractice", the Matched Question shouldn't be about "Result declaration" generic
+                
+                # Check if matched question contains at least one relevant keyword from the active context
+                has_context = any(k in question_text for k in active_critical_context)
+                
+                if not has_context:
+                    # Penalize heavily if context is missing
+                    logger.info(f"Skipping match '{ALL_QUESTIONS[idx]}' (Score: {score}) - Missing critical context.")
+                    continue
+            
+            if score > best_score:
+                best_score = score
+                best_match = ALL_ITEMS[idx]
+                best_category = ALL_CATEGORIES[idx]
+                
+        # If we found a valid match after filtering
+        if best_match and best_score >= threshold:
+            logger.info(f"TF-IDF Match found: '{best_match.get('question')}' with score {best_score}")
+            return best_match, best_score, best_category
+
+        # --- FALLBACK: Strict Keyword Matching ---
+        # If TF-IDF failed (often due to specific wording differences), try specific keyword scoring
         
+        logger.info("Falling back to fuzzy keyword matching...")
+        
+        query_words = preprocess_query(query).split()
+        stop = {'how', 'do', 'i', 'why', 'what', 'when', 'where', 'to', 'for', 'a', 'an', 'the', 'is', 'are', 'can', 'if', 'held', 'get', 'my', 'be', 'will'}
+        
+        best_fuzzy_match = None
+        max_overlap_score = 0
+        best_idx_cat = -1
+        
+        for idx, question in enumerate(ALL_QUESTIONS):
+            question_lower = question.lower()
+            
+            # Check context again for fuzzy match
+            if active_critical_context:
+                has_context = any(k in question_lower for k in active_critical_context)
+                if not has_context: continue
+
+            # Keyword Overlap Logic
+            q_keywords = [w for w in question_lower.split() if w not in stop and len(w) > 2]
+            user_keywords = [w for w in query_words if w not in stop and len(w) > 2]
+            
+            if not q_keywords or not user_keywords: continue
+            
+            matches = 0
+            for u_word in user_keywords:
+                # Exact match or very close fuzzy match
+                if u_word in q_keywords:
+                    matches += 1.0
+                else:
+                     # Check for singular/plural or close fuzzy
+                     close = difflib.get_close_matches(u_word, q_keywords, n=1, cutoff=0.70)
+                     if close: matches += 0.8
+            
+            # Calculate a normalized score for this question (Matches / Total Question Keywords)
+            # This favors shorter, specific questions that match well
+            overlap_score = matches / (len(q_keywords) + 0.5) 
+            
+            if overlap_score > max_overlap_score:
+                max_overlap_score = overlap_score
+                best_fuzzy_match = ALL_ITEMS[idx]
+                best_idx_cat = idx
+
+        if best_fuzzy_match and max_overlap_score > 0.3: # Threshold for keyword fallback
+             logger.info(f"Fuzzy Overlap Match: '{best_fuzzy_match['question']}' (Score: {max_overlap_score})")
+             return best_fuzzy_match, 0.5, ALL_CATEGORIES[best_idx_cat]
+             
+        return None, 0.0, ""
+
     except Exception as e:
         logger.error(f"Error in find_best_match: {e}")
+        import traceback
+        logger.error(traceback.format_exc())
         return None, 0.0, ""
 
 def format_response(match: Dict, category: str, confidence: float) -> Dict:
@@ -271,4 +406,4 @@ def health_check():
     })
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=5000)
+    app.run(debug=True, use_reloader=False, host='0.0.0.0', port=5000)
