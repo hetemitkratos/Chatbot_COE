@@ -539,6 +539,7 @@ body {
     font-size: 1.2rem;
 }
 
+
 /* --- Mobile Responsiveness --- */
 
 /* Mobile Menu Button - Hidden on Desktop */
@@ -552,17 +553,14 @@ body {
   margin-right: 15px;
 }
 
+/* Default Mobile-First Approach (or Stacked Default) */
 @media (max-width: 768px) {
   .ambient-glow {
-    /* Reduce gradient complexity on mobile */
     background: radial-gradient(circle at 50% 50%, #10002b 0%, #000000 100%);
   }
   
-  .orb {
-    opacity: 0.4; /* Dim orbs to reduce distraction */
-  }
+  .orb { opacity: 0.4; }
 
-  /* Reset Grid to Stack */
   .main-container {
     display: flex;
     flex-direction: column;
@@ -571,7 +569,7 @@ body {
     max-width: 100%;
   }
 
-  /* Sidebar - Mobile Drawer */
+  /* Sidebar - Drawer */
   .sidebar {
     position: fixed;
     top: 0;
@@ -582,14 +580,14 @@ body {
     border-radius: 0;
     transform: translateX(-100%);
     transition: transform 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
-    background: rgba(16, 12, 41, 0.95); /* Opaque background */
+    background: rgba(16, 12, 41, 0.95);
+    backdrop-filter: blur(20px);
   }
 
   .sidebar.active {
     transform: translateX(0);
   }
 
-  /* Overlay when sidebar is open */
   .sidebar-overlay {
     position: fixed;
     top: 0;
@@ -609,7 +607,6 @@ body {
     visibility: visible;
   }
 
-  /* Chat Container - Full Screen */
   .chat-container {
     flex: 1;
     border-radius: 0;
@@ -622,42 +619,45 @@ body {
   }
   
   .mobile-menu-btn {
-    display: block; /* Show menu button */
+    display: block;
   }
 
-  /* Adjust Hero Text */
-  .hero-welcome {
-     padding: 20px;
-  }
-  
-  .hero-title {
-    font-size: 32px;
-  }
-  
-  .hero-title span {
-    font-size: 24px;
-  }
+  .hero-welcome { padding: 20px; }
+  .hero-title { font-size: 32px; }
+  .hero-title span { font-size: 24px; }
+  .features-grid { grid-template-columns: 1fr; gap: 10px; padding: 0 20px; }
+  .message-bubble { padding: 12px 16px; font-size: 14px; }
+  .message-avatar { width: 30px; height: 30px; }
+  .input-area { padding: 15px; }
+}
 
-  /* Features Grid - Single Column */
-  .features-grid {
-    grid-template-columns: 1fr;
-    gap: 10px;
-    padding: 0 20px;
-  }
+/* Enforce Desktop Grid when width > 768px */
+@media (min-width: 769px) {
+    .main-container {
+        display: grid;
+        grid-template-columns: 280px 1fr; /* Strict column sizing */
+        gap: 20px;
+        padding: 0 20px;
+        height: 90vh;
+    }
 
-  /* Message Bubbles */
-  .message-bubble {
-    padding: 12px 16px;
-    font-size: 14px;
-  }
-  
-  .message-avatar {
-    width: 30px;
-    height: 30px;
-  }
+    .sidebar {
+        /* Reset mobile drawer properties */
+        position: relative; 
+        transform: none;
+        width: auto;
+        height: auto;
+        background: var(--glass-bg);
+        z-index: 1;
+        display: flex !important; /* Ensure it's always visible on desktop */
+    }
 
-  /* Input Area */
-  .input-area {
-    padding: 15px;
-  }
+    .sidebar-overlay {
+        display: none !important;
+    }
+    
+    .chat-container {
+        height: 100%;
+        border-radius: 24px;
+    }
 }
